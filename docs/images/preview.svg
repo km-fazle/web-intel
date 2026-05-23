@@ -17,7 +17,7 @@
   <text x="620" y="118" fill="#b8f24a" font-family="system-ui" font-size="13" font-weight="600">SSL Certificate</text>
   <text x="620" y="148" fill="#9aa89a" font-family="monospace" font-size="11">Issuer: Let's Encrypt</text>
   <text x="920" y="118" fill="#b8f24a" font-family="system-ui" font-size="13" font-weight="600">DNS Records</text>
-  <text x="920" y="148" fill="#9aa89a" font-family="monospace" font-size="11">A · AAAA · MX · TXT</text>
+  <text x="920" y="148" fill="#9aa89a" font-family="monospace" font-size="11">A / AAAA / MX / TXT</text>
   <text x="620" y="254" fill="#b8f24a" font-family="system-ui" font-size="13" font-weight="600">HTTP Security</text>
   <text x="920" y="254" fill="#b8f24a" font-family="system-ui" font-size="13" font-weight="600">Server Location</text>
 </svg>

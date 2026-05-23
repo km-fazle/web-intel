@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./docs/images/banner.svg" alt="Web Intel — X-Ray vision for your website" width="100%" />
+  <img src="./docs/images/banner.png" alt="Web Intel — X-Ray vision for your website" width="100%" />
 </p>
 
 <p align="center">
@@ -29,10 +29,10 @@
 ## Preview
 
 <p align="center">
-  <img src="./docs/images/preview.svg" alt="Web Intel dashboard preview" width="920" />
+  <img src="./docs/images/preview.png" alt="Web Intel dashboard preview" width="920" />
 </p>
 
-> Replace `docs/images/preview.svg` with a real screenshot (`preview.png`) after your first deploy for the best README look.
+> Tip: swap `docs/images/preview.png` with a real app screenshot after deploy for an even better README.
 
 ---
 

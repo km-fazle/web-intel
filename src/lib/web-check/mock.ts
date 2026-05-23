@@ -34,6 +34,9 @@ export function buildMockReport(domain: string): MockReport {
     ip,
     ns: [`ns1.${domain}`, `ns2.${domain}`, `ns3.${domain}`, `ns4.${domain}`],
     aRecords: [ip, `142.250.${h % 256}.113`, `142.250.${(h >> 1) % 256}.138`],
-    aaaa: [`2a00:1450:4009:c04::${(h % 200).toString(16)}b`, `2a00:1450:4009:c04::${(h % 99).toString(16)}1`],
+    aaaa: [
+      `2a00:1450:4009:c04::${(h % 200).toString(16)}b`,
+      `2a00:1450:4009:c04::${(h % 99).toString(16)}1`,
+    ],
   };
 }

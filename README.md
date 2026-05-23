@@ -38,16 +38,16 @@
 
 ## Features
 
-| Category | Checks |
-| -------- | ------ |
-| **Network** | DNS (A, AAAA, MX, TXT, NS, CAA, SOA), DNSSEC, server IP & geolocation |
-| **TLS** | Certificate subject, issuer, validity, days remaining |
-| **HTTP** | Status, redirects, headers, cookies, response time |
-| **Security** | CSP, HSTS, X-Frame-Options, Referrer-Policy, `security.txt` |
-| **Email** | SPF, DMARC, BIMI |
-| **Content** | Social meta tags, linked pages, robots.txt / crawl rules |
-| **Intel** | Wayback archive, carbon estimate, WAF hints, domain WHOIS (RDAP) |
-| **Research** | 17+ external tool deep-links (VirusTotal, Shodan, SSL Labs, etc.) |
+| Category     | Checks                                                                |
+| ------------ | --------------------------------------------------------------------- |
+| **Network**  | DNS (A, AAAA, MX, TXT, NS, CAA, SOA), DNSSEC, server IP & geolocation |
+| **TLS**      | Certificate subject, issuer, validity, days remaining                 |
+| **HTTP**     | Status, redirects, headers, cookies, response time                    |
+| **Security** | CSP, HSTS, X-Frame-Options, Referrer-Policy, `security.txt`           |
+| **Email**    | SPF, DMARC, BIMI                                                      |
+| **Content**  | Social meta tags, linked pages, robots.txt / crawl rules              |
+| **Intel**    | Wayback archive, carbon estimate, WAF hints, domain WHOIS (RDAP)      |
+| **Research** | 17+ external tool deep-links (VirusTotal, Shodan, SSL Labs, etc.)     |
 
 Built with [TanStack Start](https://tanstack.com/start), [TanStack Router](https://tanstack.com/router), and [TanStack Query](https://tanstack.com/query). No API keys required for core checks.
 
@@ -73,13 +73,13 @@ Open [http://localhost:5173](http://localhost:5173), enter a domain (e.g. `examp
 
 ### Scripts
 
-| Command | Description |
-| ------- | ----------- |
-| `npm run dev` | Development server with hot reload |
-| `npm run build` | Production build |
-| `npm run preview` | Preview production build locally |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format with Prettier |
+| Command           | Description                        |
+| ----------------- | ---------------------------------- |
+| `npm run dev`     | Development server with hot reload |
+| `npm run build`   | Production build                   |
+| `npm run preview` | Preview production build locally   |
+| `npm run lint`    | Run ESLint                         |
+| `npm run format`  | Format with Prettier               |
 
 ---
 

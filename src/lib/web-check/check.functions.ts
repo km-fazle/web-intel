@@ -1,6 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
 
-export interface DnsAnswer { name: string; type: number; data: string; TTL?: number }
+export interface DnsAnswer {
+  name: string;
+  type: number;
+  data: string;
+  TTL?: number;
+}
 
 export type SourceStatus = "ok" | "error" | "empty";
 
@@ -172,13 +177,21 @@ async function doh(name: string, type: string): Promise<string[]> {
   );
   if (!data || !Array.isArray(data.Answer)) return [];
   const typeNum = DNS_TYPE_NUM[type];
-  return data.Answer
-    .filter((a: DnsAnswer) => a.data && (typeNum == null || a.type === typeNum))
-    .map((a: DnsAnswer) => normalizeDnsValue(type, String(a.data)));
+  return data.Answer.filter(
+    (a: DnsAnswer) => a.data && (typeNum == null || a.type === typeNum),
+  ).map((a: DnsAnswer) => normalizeDnsValue(type, String(a.data)));
 }
 
 const DNS_TYPE_NUM: Record<string, number> = {
-  A: 1, NS: 2, CNAME: 5, SOA: 6, PTR: 12, MX: 15, TXT: 16, AAAA: 28, CAA: 257,
+  A: 1,
+  NS: 2,
+  CNAME: 5,
+  SOA: 6,
+  PTR: 12,
+  MX: 15,
+  TXT: 16,
+  AAAA: 28,
+  CAA: 257,
 };
 
 function stripTrailingDot(s: string): string {
@@ -223,10 +236,20 @@ function normalizeDnsValue(type: string, raw: string): string {
 
 async function getDnssec(name: string): Promise<{ DNSKEY: boolean; DS: boolean; RRSIG: boolean }> {
   const [dk, ds] = await Promise.all([
-    fetchJson(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(name)}&type=DNSKEY&do=1`, { headers: { Accept: "application/dns-json" } }),
-    fetchJson(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(name)}&type=DS&do=1`, { headers: { Accept: "application/dns-json" } }),
+    fetchJson(
+      `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(name)}&type=DNSKEY&do=1`,
+      { headers: { Accept: "application/dns-json" } },
+    ),
+    fetchJson(
+      `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(name)}&type=DS&do=1`,
+      { headers: { Accept: "application/dns-json" } },
+    ),
   ]);
-  const hasRrsig = !!(dk && Array.isArray(dk.Answer) && dk.Answer.some((a: DnsAnswer) => a.type === 46));
+  const hasRrsig = !!(
+    dk &&
+    Array.isArray(dk.Answer) &&
+    dk.Answer.some((a: DnsAnswer) => a.type === 46)
+  );
   return {
     DNSKEY: !!(dk && Array.isArray(dk.Answer) && dk.Answer.some((a: DnsAnswer) => a.type === 48)),
     DS: !!(ds && Array.isArray(ds.Answer) && ds.Answer.some((a: DnsAnswer) => a.type === 43)),
@@ -343,14 +366,19 @@ function pickHeader(headers: Array<[string, string]>, key: string) {
 }
 
 async function getRdap(domain: string) {
-  const data = await fetchJson(`https://rdap.org/domain/${encodeURIComponent(domain)}`, undefined, 8000);
+  const data = await fetchJson(
+    `https://rdap.org/domain/${encodeURIComponent(domain)}`,
+    undefined,
+    8000,
+  );
   if (!data) return null;
   const events: Array<{ eventAction?: string; eventDate?: string }> = data.events ?? [];
   const evt = (a: string) => events.find((e) => e.eventAction === a)?.eventDate ?? null;
-  const registrar =
-    Array.isArray(data.entities)
-      ? (data.entities.find((e: { roles?: string[]; vcardArray?: unknown[] }) => e.roles?.includes("registrar"))?.vcardArray as unknown[] | undefined)
-      : undefined;
+  const registrar = Array.isArray(data.entities)
+    ? (data.entities.find((e: { roles?: string[]; vcardArray?: unknown[] }) =>
+        e.roles?.includes("registrar"),
+      )?.vcardArray as unknown[] | undefined)
+    : undefined;
   let registrarName: string | null = null;
   if (Array.isArray(registrar) && Array.isArray(registrar[1])) {
     const vcardEntries = registrar[1] as Array<[string, Record<string, unknown>, string, string]>;
@@ -358,7 +386,9 @@ async function getRdap(domain: string) {
     if (fn && typeof fn[3] === "string") registrarName = fn[3];
   }
   const ns = Array.isArray(data.nameservers)
-    ? (data.nameservers as Array<{ ldhName?: string }>).map((n) => (n.ldhName ?? "").toLowerCase()).filter(Boolean)
+    ? (data.nameservers as Array<{ ldhName?: string }>)
+        .map((n) => (n.ldhName ?? "").toLowerCase())
+        .filter(Boolean)
     : [];
   return {
     registrar: registrarName,
@@ -371,7 +401,11 @@ async function getRdap(domain: string) {
 }
 
 async function getSsl(domain: string) {
-  const data = await fetchJson(`https://ssl-checker.io/api/v1/check/${encodeURIComponent(domain)}`, undefined, 8000);
+  const data = await fetchJson(
+    `https://ssl-checker.io/api/v1/check/${encodeURIComponent(domain)}`,
+    undefined,
+    8000,
+  );
   if (!data || !data.result) return null;
   const r = data.result;
   return {
@@ -403,7 +437,10 @@ async function getSecurityTxt(domain: string) {
     try {
       const ctrl = new AbortController();
       const t = setTimeout(() => ctrl.abort(), 4000);
-      const res = await fetch(`https://${domain}${path}`, { signal: ctrl.signal, redirect: "follow" });
+      const res = await fetch(`https://${domain}${path}`, {
+        signal: ctrl.signal,
+        redirect: "follow",
+      });
       clearTimeout(t);
       if (res.ok) {
         const text = await res.text();
@@ -447,7 +484,10 @@ function parseSecurityTxt(text: string, url: string) {
     expires,
     expired,
     preferredLanguages: (fields["preferred-languages"] ?? []).flatMap((v) =>
-      v.split(",").map((s) => s.trim()).filter(Boolean),
+      v
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
     ),
     canonical: fields["canonical"] ?? [],
     policy: fields["policy"] ?? [],
@@ -524,10 +564,17 @@ async function fetchPageHtml(domain: string): Promise<{ html: string; bytes: num
       chunks.push(value);
       total += value.byteLength;
     }
-    try { await reader.cancel(); } catch { /* ignore */ }
+    try {
+      await reader.cancel();
+    } catch {
+      /* ignore */
+    }
     const merged = new Uint8Array(total);
     let off = 0;
-    for (const c of chunks) { merged.set(c, off); off += c.byteLength; }
+    for (const c of chunks) {
+      merged.set(c, off);
+      off += c.byteLength;
+    }
     const html = new TextDecoder("utf-8", { fatal: false }).decode(merged);
     return { html, bytes: total };
   } catch {
@@ -551,8 +598,16 @@ function getSocialTags(html: string, domain: string) {
     twitterCreator: pickMeta(html, "name", "twitter:creator"),
     themeColor: pickMeta(html, "name", "theme-color"),
     author: pickMeta(html, "name", "author"),
-    canonical: canonical ? (canonical.startsWith("http") ? canonical : `https://${domain}${canonical}`) : null,
-    favicon: favicon ? (favicon.startsWith("http") ? favicon : `https://${domain}${favicon.startsWith("/") ? favicon : "/" + favicon}`) : null,
+    canonical: canonical
+      ? canonical.startsWith("http")
+        ? canonical
+        : `https://${domain}${canonical}`
+      : null,
+    favicon: favicon
+      ? favicon.startsWith("http")
+        ? favicon
+        : `https://${domain}${favicon.startsWith("/") ? favicon : "/" + favicon}`
+      : null,
   };
 }
 
@@ -564,7 +619,8 @@ function getLinkedPages(html: string, domain: string) {
   let m: RegExpExecArray | null;
   while ((m = re.exec(html)) !== null) {
     const href = m[1];
-    if (href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:")) continue;
+    if (href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:"))
+      continue;
     if (href.startsWith("/") || href.startsWith("./") || href.startsWith("?")) {
       internal++;
       continue;
@@ -588,7 +644,10 @@ async function getCrawlRules(domain: string) {
   try {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 5000);
-    const res = await fetch(`https://${domain}/robots.txt`, { signal: ctrl.signal, redirect: "follow" });
+    const res = await fetch(`https://${domain}/robots.txt`, {
+      signal: ctrl.signal,
+      redirect: "follow",
+    });
     clearTimeout(t);
     if (!res.ok) return { userAgents: [], disallow: [], sitemaps: [] };
     const text = await res.text();
@@ -648,7 +707,9 @@ async function getArchive(domain: string) {
       // showNumPages returns # of 150k pages — multiply rough
       if (!Number.isNaN(n)) totalScans = n * 150_000;
     }
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
   return {
     available: !!snap?.available,
     firstScan,
@@ -669,9 +730,7 @@ function estimateCarbon(bytes: number) {
   // Naive percentile vs. ~1.5MB median
   const median = 1_500_000;
   const ratio = bytes / median;
-  const cleanerThanPercent = ratio <= 1
-    ? Math.round((1 - ratio) * 100)
-    : 0;
+  const cleanerThanPercent = ratio <= 1 ? Math.round((1 - ratio) * 100) : 0;
   return { bytes, co2Grams: Math.round(co2Grams * 100) / 100, cleanerThanPercent };
 }
 
@@ -701,7 +760,11 @@ function detectFirewall(headers: Array<[string, string]>) {
 
 export const runCheck = createServerFn({ method: "GET" })
   .inputValidator((input: { domain: string }) => {
-    const d = input.domain.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+    const d = input.domain
+      .trim()
+      .toLowerCase()
+      .replace(/^https?:\/\//, "")
+      .replace(/\/.*$/, "");
     if (!DOMAIN_RE.test(d)) throw new Error("Invalid domain");
     return { domain: d };
   })
@@ -710,31 +773,108 @@ export const runCheck = createServerFn({ method: "GET" })
     const errors: string[] = [];
     const domain = data.domain;
 
-    const sA = await withSource("dns", () => doh(domain, "A"), (r) => r.length === 0);
-    const sAAAA = await withSource("dns", () => doh(domain, "AAAA"), (r) => r.length === 0);
-    const sNS = await withSource("dns-ns", () => doh(domain, "NS"), (r) => r.length === 0);
-    const sMX = await withSource("dns-mx", () => doh(domain, "MX"), (r) => r.length === 0);
-    const sTXT = await withSource("dns-txt", () => doh(domain, "TXT"), (r) => r.length === 0);
-    const sSOA = await withSource("dns-soa", () => doh(domain, "SOA"), (r) => r.length === 0);
-    const sCAA = await withSource("dns-caa", () => doh(domain, "CAA"), (r) => r.length === 0);
-    const sCNAME = await withSource("dns-cname", () => doh(domain, "CNAME"), (r) => r.length === 0);
+    const sA = await withSource(
+      "dns",
+      () => doh(domain, "A"),
+      (r) => r.length === 0,
+    );
+    const sAAAA = await withSource(
+      "dns",
+      () => doh(domain, "AAAA"),
+      (r) => r.length === 0,
+    );
+    const sNS = await withSource(
+      "dns-ns",
+      () => doh(domain, "NS"),
+      (r) => r.length === 0,
+    );
+    const sMX = await withSource(
+      "dns-mx",
+      () => doh(domain, "MX"),
+      (r) => r.length === 0,
+    );
+    const sTXT = await withSource(
+      "dns-txt",
+      () => doh(domain, "TXT"),
+      (r) => r.length === 0,
+    );
+    const sSOA = await withSource(
+      "dns-soa",
+      () => doh(domain, "SOA"),
+      (r) => r.length === 0,
+    );
+    const sCAA = await withSource(
+      "dns-caa",
+      () => doh(domain, "CAA"),
+      (r) => r.length === 0,
+    );
+    const sCNAME = await withSource(
+      "dns-cname",
+      () => doh(domain, "CNAME"),
+      (r) => r.length === 0,
+    );
 
     const sDnssec = await withSource("dnssec", () => getDnssec(domain));
-    const sHttp = await withSource("http", () => getHttp(domain), (r) => r === null);
-    const sWhois = await withSource("whois", () => getRdap(domain), (r) => r === null);
-    const sSsl = await withSource("ssl", () => getSsl(domain), (r) => r === null);
+    const sHttp = await withSource(
+      "http",
+      () => getHttp(domain),
+      (r) => r === null,
+    );
+    const sWhois = await withSource(
+      "whois",
+      () => getRdap(domain),
+      (r) => r === null,
+    );
+    const sSsl = await withSource(
+      "ssl",
+      () => getSsl(domain),
+      (r) => r === null,
+    );
     const sSecurityTxt = await withSource("securityTxt", () => getSecurityTxt(domain));
 
-    const sSpf = await withSource("email-spf", () => doh(domain, "TXT"), (r) => r.length === 0);
-    const sDmarc = await withSource("email-dmarc", () => doh(`_dmarc.${domain}`, "TXT"), (r) => r.length === 0);
-    const sBimi = await withSource("email-bimi", () => doh(`default._bimi.${domain}`, "TXT"), (r) => r.length === 1);
+    const sSpf = await withSource(
+      "email-spf",
+      () => doh(domain, "TXT"),
+      (r) => r.length === 0,
+    );
+    const sDmarc = await withSource(
+      "email-dmarc",
+      () => doh(`_dmarc.${domain}`, "TXT"),
+      (r) => r.length === 0,
+    );
+    const sBimi = await withSource(
+      "email-bimi",
+      () => doh(`default._bimi.${domain}`, "TXT"),
+      (r) => r.length === 1,
+    );
 
-    const sPage = await withSource("page", () => fetchPageHtml(domain), (r) => r === null);
-    const sCrawl = await withSource("crawl", () => getCrawlRules(domain), (r) => r.userAgents.length === 0 && r.sitemaps.length === 0);
-    const sArchive = await withSource("archive", () => getArchive(domain), (r) => !r.available);
+    const sPage = await withSource(
+      "page",
+      () => fetchPageHtml(domain),
+      (r) => r === null,
+    );
+    const sCrawl = await withSource(
+      "crawl",
+      () => getCrawlRules(domain),
+      (r) => r.userAgents.length === 0 && r.sitemaps.length === 0,
+    );
+    const sArchive = await withSource(
+      "archive",
+      () => getArchive(domain),
+      (r) => !r.available,
+    );
 
     const ip = sA.result[0] ?? null;
-    const sGeo = ip ? await withSource("geo", () => getGeo(ip), (r) => r === null) : { info: { status: "empty" as SourceStatus, fetchedAt: new Date().toISOString() }, result: null };
+    const sGeo = ip
+      ? await withSource(
+          "geo",
+          () => getGeo(ip),
+          (r) => r === null,
+        )
+      : {
+          info: { status: "empty" as SourceStatus, fetchedAt: new Date().toISOString() },
+          result: null,
+        };
 
     const A = sA.result ?? [];
     const AAAA = sAAAA.result ?? [];

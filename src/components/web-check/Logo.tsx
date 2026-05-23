@@ -8,7 +8,14 @@ export function ShieldLogo({ compact = false }: { compact?: boolean }) {
           strokeWidth="1.8"
           fill="oklch(0.9 0.22 125 / 0.08)"
         />
-        <path d="M8 12 L11 15 L16 9" stroke="oklch(0.9 0.22 125)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M8 12 L11 15 L16 9"
+          stroke="oklch(0.9 0.22 125)"
+          strokeWidth="2"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
       <span className="font-bold text-foreground text-lg">
         Web<span className="text-primary"> Intel</span>

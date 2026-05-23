@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./docs/images/banner.png" alt="Web Intel — X-Ray vision for your website" width="100%" />
+  <img src="./public/banner.png" alt="Web Intel — X-Ray vision for your website" width="100%" />
 </p>
 
 <p align="center">
@@ -29,10 +29,8 @@
 ## Preview
 
 <p align="center">
-  <img src="./docs/images/preview.png" alt="Web Intel dashboard preview" width="920" />
+  <img src="./public/preview.png" alt="Web Intel dashboard — homepage and report panels" width="100%" />
 </p>
-
-> Tip: swap `docs/images/preview.png` with a real app screenshot after deploy for an even better README.
 
 ---
 
@@ -113,8 +111,8 @@ Configure `wrangler.jsonc` and `src/server.ts` as needed for your account.
 
 ```
 web-intel/
-├── public/              # Static assets (favicon)
-├── docs/images/         # README banner & preview art
+├── public/              # Static assets (favicon, README banner & preview images)
+├── docs/images/         # Legacy SVG placeholders (optional)
 ├── src/
 │   ├── routes/          # File-based routes (/, /check/:domain)
 │   ├── lib/web-check/   # Server functions & OSINT logic

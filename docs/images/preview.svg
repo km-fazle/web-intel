@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none">
+  <rect width="1200" height="675" rx="12" fill="#0a0f0a"/>
+  <rect x="1" y="1" width="1198" height="673" rx="11" stroke="#2a352a" stroke-width="2"/>
+  <rect x="0" y="0" width="1200" height="56" fill="#121a12"/>
+  <path d="M32 28 L52 36 V52 C52 62 44 68 32 72 C20 68 12 62 12 52 V36 Z" stroke="#b8f24a" stroke-width="2" fill="rgba(184,242,74,0.1)"/>
+  <path d="M22 50 L28 56 L42 42" stroke="#b8f24a" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="68" y="38" fill="#f4f7f4" font-family="system-ui" font-size="18" font-weight="700">Web Intel</text>
+  <rect x="40" y="88" width="520" height="200" rx="8" fill="#121a12" stroke="#2a352a"/>
+  <text x="60" y="128" fill="#b8f24a" font-family="system-ui" font-size="28" font-weight="700">We give you X-Ray Vision</text>
+  <text x="60" y="160" fill="#9aa89a" font-family="system-ui" font-size="14">Enter a URL to start</text>
+  <rect x="60" y="180" width="360" height="36" rx="6" fill="#1a241a" stroke="#2a352a"/>
+  <rect x="60" y="228" width="360" height="40" rx="6" fill="rgba(184,242,74,0.12)" stroke="#b8f24a" stroke-opacity="0.5"/>
+  <rect x="600" y="88" width="280" height="120" rx="8" fill="#121a12" stroke="#2a352a"/>
+  <rect x="900" y="88" width="280" height="120" rx="8" fill="#121a12" stroke="#2a352a"/>
+  <rect x="600" y="224" width="280" height="120" rx="8" fill="#121a12" stroke="#2a352a"/>
+  <rect x="900" y="224" width="280" height="120" rx="8" fill="#121a12" stroke="#2a352a"/>
+  <text x="620" y="118" fill="#b8f24a" font-family="system-ui" font-size="13" font-weight="600">SSL Certificate</text>
+  <text x="620" y="148" fill="#9aa89a" font-family="monospace" font-size="11">Issuer: Let's Encrypt</text>
+  <text x="920" y="118" fill="#b8f24a" font-family="system-ui" font-size="13" font-weight="600">DNS Records</text>
+  <text x="920" y="148" fill="#9aa89a" font-family="monospace" font-size="11">A · AAAA · MX · TXT</text>
+  <text x="620" y="254" fill="#b8f24a" font-family="system-ui" font-size="13" font-weight="600">HTTP Security</text>
+  <text x="920" y="254" fill="#b8f24a" font-family="system-ui" font-size="13" font-weight="600">Server Location</text>
+</svg>

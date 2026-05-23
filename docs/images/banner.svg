@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0a0f0a"/>
+      <stop offset="1" stop-color="#121a12"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="200" y1="0" x2="1000" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b8f24a" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#b8f24a" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="320" fill="url(#bg)"/>
+  <rect width="1200" height="320" fill="url(#glow)"/>
+  <path d="M120 96 L168 112 V176 C168 208 144 232 120 240 C96 232 72 208 72 176 V112 Z" stroke="#b8f24a" stroke-width="4" fill="rgba(184,242,74,0.08)"/>
+  <path d="M96 168 L108 180 L144 144" stroke="#b8f24a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="200" y="148" fill="#f4f7f4" font-family="system-ui, sans-serif" font-size="56" font-weight="700">Web Intel</text>
+  <text x="200" y="196" fill="#9aa89a" font-family="system-ui, sans-serif" font-size="24">X-Ray vision for your website</text>
+  <text x="200" y="248" fill="#6b7a6b" font-family="system-ui, sans-serif" font-size="16">DNS · SSL · Headers · Security posture · OSINT</text>
+</svg>
